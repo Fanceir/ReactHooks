@@ -28,7 +28,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    /*any允许*/
+    "noImplicitAny": false,
   },
   "include": [
     "src"
