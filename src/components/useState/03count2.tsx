@@ -4,7 +4,7 @@ export const Count2: React.FC = () => {
   console.log("导入了Count组件");
   const [count, setCount] = useState(0);
   //调用useState可以给他一个初始值
-  //z只要状态发生变化就会有一个新的值
+  //只要状态发生变化就会有一个新的值
   //已经渲染过一遍了之后会修改状态，不会重新赋初值
   console.log("触发了useState");
   const add = () => {
