@@ -1,18 +1,13 @@
-import React from "react";
-// import { Count } from "@/components/useState/01base";
-// import DateCom from "@/components/useState/02date";
-// import { Count2 } from "@/components/useState/03count2";
-// import Count3 from "@/components/useState/04count3";
-// import { Userinfo } from "@/components/useState/05userinfo";
-// import { ForceUpdateCom } from "@/components/useState/05userinfo";
-import Count4 from "@/components/useState/06count";
+// import { InputFocus } from "./components/useRef/01base";
+// import CountRef from "./components/useRef/02base";
+// import CountTimeRef from "./components/useRef/03base";
+// import CountTimeRef from "./components/useRef/04base";
+// import CountTimeRef from "./components/useRef/05base";
+import { Father } from "./components/useRef/07base";
 export default function App() {
   return (
     <div>
-      {/* <Count />
-      <DateCom /> */}
-      {/* <Count3 /> */}
-      <Count4 />
+      <Father />
     </div>
   );
 }
