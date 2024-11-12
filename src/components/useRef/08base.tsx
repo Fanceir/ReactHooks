@@ -1,3 +1,4 @@
+//使用useImperativeHandle按需暴露成员
 import React from "react";
 import { useRef, useState, useImperativeHandle } from "react";
 
@@ -10,7 +11,7 @@ const Child = React.forwardRef((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     count,
-    setCount,
+    reset: () => setCount(0),
   }));
   //可以使用useImperativeHandle来控制暴露给父组件的ref对象
   return (
@@ -22,14 +23,12 @@ const Child = React.forwardRef((_, ref) => {
 });
 
 export const Father: React.FC = () => {
-  const childRef = useRef<{ count: number; setCount: (value: number) => void }>(
-    null
-  );
+  const childRef = useRef<{ count: number; reset: () => void }>(null);
   const showRef = () => {
     console.log(childRef.current);
   };
   const onReset = () => {
-    childRef.current?.setCount(0);
+    childRef.current?.reset();
   };
   return (
     <>
