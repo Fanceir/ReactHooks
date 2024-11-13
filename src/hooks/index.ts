@@ -19,7 +19,7 @@ export const useMousePosition = (delay: number = 0) => {
     return () => {
       window.removeEventListener("mousemove", mouseMoveHandler);
     };
-  }, []);
+  }, [position, delay]);
   return position;
 };
 
