@@ -1,5 +1,6 @@
 import React from "react";
 import { useMousePosition } from "../../hooks";
+import { useCountDown } from "../../hooks";
 export default function MouseInfo() {
   const position = useMousePosition(100);
   return <div>MouseInfo:MousePosition{JSON.stringify(position)}</div>;
@@ -14,6 +15,16 @@ export const TestMouseInfo: React.FC = () => {
       <hr />
       {flag && <MouseInfo />}
     </div>
+  );
+};
+export const CountDown: React.FC = () => {
+  const [count, disabled] = useCountDown(10);
+  return (
+    <>
+      <button disabled={disabled} onClick={() => console.log("协议已生效")}>
+        {disabled ? `请仔细阅读本协议(${count})秒` : `请确认本协议`}
+      </button>
+    </>
   );
 };
 

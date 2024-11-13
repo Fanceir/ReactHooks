@@ -1,8 +1,8 @@
-import { TestMouseInfo } from "./components/useEffect/MouseInfo";
+import { CountDown } from "./components/useEffect/MouseInfo";
 export default function App() {
   return (
     <div>
-      <TestMouseInfo />
+      <CountDown />
     </div>
   );
 }
