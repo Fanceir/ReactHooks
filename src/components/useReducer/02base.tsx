@@ -1,4 +1,5 @@
-import React, { useReducer } from "react";
+//使用immer编写简洁的useReducer
+import { useImmerReducer } from "use-immer";
 // const [state,dispatch]=useReducer(reducer,initialState,initAction)
 //initialState:初始状态
 //initAction:初始action
@@ -23,24 +24,25 @@ const reducer = (prevState: UserType, action: ActionType) => {
   console.log(action);
   switch (action.type) {
     case "UPDATE_NAME":
-      return { ...prevState, name: action.payload };
+      prevState.name = action.payload;
+      break;
     case "UPDATE_AGE":
-      return { ...prevState, age: action.payload };
+      prevState.age = action.payload;
+      break;
     case "INCREMENT":
-      return { ...prevState, age: prevState.age + action.payload };
+      prevState.age += action.payload;
+      break;
     case "DECREMENT":
-      return { ...prevState, age: prevState.age - action.payload };
+      prevState.age -= action.payload;
+      break;
     case "RESET":
-      return {
-        ...prevState,
-        age: defaultState.age === 0 ? 18 : defaultState.age,
-      };
+      return initAction(defaultState);
     default:
       return prevState;
   }
 };
 export const Father: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, defaultState, initAction);
+  const [state, dispatch] = useImmerReducer(reducer, defaultState, initAction);
   //   console.log(state);
   const changeUserName = () => {
     //不要在这里直接修改state数据

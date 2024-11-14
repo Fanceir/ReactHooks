@@ -1,9 +1,9 @@
-import { Father } from "./components/useReducer/01base";
+import { TabsContainer } from "./components/useTransition/01base";
 import "./index.css";
 export default function App() {
   return (
     <div>
-      <Father />
+      <TabsContainer />
     </div>
   );
 }

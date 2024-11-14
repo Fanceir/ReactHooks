@@ -1,4 +1,6 @@
-import React, { useReducer } from "react";
+//使用immer编写简洁的useReducer
+import React, { useContext } from "react";
+import { useImmerReducer } from "use-immer";
 // const [state,dispatch]=useReducer(reducer,initialState,initAction)
 //initialState:初始状态
 //initAction:初始action
@@ -6,6 +8,21 @@ import React, { useReducer } from "react";
 const defaultState = { name: "fanceir", age: 0 };
 //在reducer的函数中第一个参数是prevState,第二个参数是action
 //必须返回一个新状态
+type ContextType = {
+  user: UserType;
+  dispatch: React.Dispatch<ActionType>;
+};
+const UserInfoContext = React.createContext<ContextType>({} as ContextType);
+export const UserInfoContextWrapper: React.FC<React.PropsWithChildren> = (
+  props
+) => {
+  const [state, dispatch] = useImmerReducer(reducer, defaultState, initAction);
+  return (
+    <UserInfoContext.Provider value={{ user: state, dispatch }}>
+      {props.children}
+    </UserInfoContext.Provider>
+  );
+};
 
 //!使用initAction来处理初始数据，可以修改其中的非法值
 type UserType = typeof defaultState;
@@ -23,25 +40,26 @@ const reducer = (prevState: UserType, action: ActionType) => {
   console.log(action);
   switch (action.type) {
     case "UPDATE_NAME":
-      return { ...prevState, name: action.payload };
+      prevState.name = action.payload;
+      break;
     case "UPDATE_AGE":
-      return { ...prevState, age: action.payload };
+      prevState.age = action.payload;
+      break;
     case "INCREMENT":
-      return { ...prevState, age: prevState.age + action.payload };
+      prevState.age += action.payload;
+      break;
     case "DECREMENT":
-      return { ...prevState, age: prevState.age - action.payload };
+      prevState.age -= action.payload;
+      break;
     case "RESET":
-      return {
-        ...prevState,
-        age: defaultState.age === 0 ? 18 : defaultState.age,
-      };
+      return initAction(defaultState);
     default:
       return prevState;
   }
 };
 export const Father: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, defaultState, initAction);
   //   console.log(state);
+  const { user: state, dispatch } = useContext(UserInfoContext);
   const changeUserName = () => {
     //不要在这里直接修改state数据
     dispatch({ type: "UPDATE_NAME", payload: "fanceir1" });
@@ -52,49 +70,43 @@ export const Father: React.FC = () => {
       <button onClick={changeUserName}>修改用户名</button>
       <div>姓名为：{state.name}</div>
       <div className="father">
-        <Child1 {...state} dispatch={dispatch} />
-        <Child2 {...state} dispatch={dispatch} />
+        <Child1 />
+        <Child2 />
       </div>
     </div>
   );
 };
 
-export const Child1: React.FC<
-  UserType & { dispatch: React.Dispatch<ActionType> }
-> = (props) => {
-  const { dispatch } = props;
+export const Child1: React.FC = () => {
+  const { user, dispatch } = useContext(UserInfoContext);
   const add = () => {
     dispatch({ type: "INCREMENT", payload: 1 });
   };
   return (
     <div className="child1">
       Child1
-      <p>{JSON.stringify(props)}</p>
+      <p>{JSON.stringify(user)}</p>
       <button onClick={add}>年龄加一</button>
     </div>
   );
 };
-export const Child2: React.FC<
-  UserType & { dispatch: React.Dispatch<ActionType> }
-> = (props) => {
-  const { dispatch } = props;
+export const Child2: React.FC = () => {
+  const { user, dispatch } = useContext(UserInfoContext);
   const decrement = () => {
     dispatch({ type: "DECREMENT", payload: 5 });
   };
   return (
     <div className="child2">
       Child2
-      <p>{JSON.stringify(props)}</p>
+      <p>{JSON.stringify(user)}</p>
       <button onClick={decrement}>年龄-5</button>
       <hr />
-      <Grandson {...props} dispatch={dispatch} />
+      <Grandson />
     </div>
   );
 };
-const Grandson: React.FC<
-  UserType & { dispatch: React.Dispatch<ActionType> }
-> = (props) => {
-  const dispatch = props.dispatch;
+const Grandson: React.FC = () => {
+  const { dispatch } = useContext(UserInfoContext);
   const reset = () => {
     dispatch({ type: "RESET" });
   };
