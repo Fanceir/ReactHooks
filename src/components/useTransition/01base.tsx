@@ -73,6 +73,6 @@ export const AboutTab: React.FC = () => {
   return <div>AboutTab</div>;
 };
 //useTransition是将某个组件设置为低优先
-//传递给startTransition的函数一定是同步的
+//传递给startTransition的函数一定是同步的，不能异步
 //被标记为低优先级的组件会被打断
 //transition不能控制文本框的输入
